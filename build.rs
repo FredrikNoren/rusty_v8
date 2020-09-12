@@ -272,6 +272,7 @@ fn download_static_lib_binaries() {
 
 fn print_link_flags() {
   println!("cargo:rustc-link-lib=static=rusty_v8");
+  println!("cargo:rustc-link-lib=dylib=c++");
 
   if cfg!(target_os = "windows") {
     println!("cargo:rustc-link-lib=dylib=winmm");

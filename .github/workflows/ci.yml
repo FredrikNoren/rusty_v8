@@ -29,11 +29,11 @@ jobs:
             target: x86_64-apple-darwin
             variant: release
 
-          - os: ubuntu-latest-xl
+          - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             variant: debug
 
-          - os: ubuntu-latest-xl
+          - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             variant: release
 
@@ -41,11 +41,11 @@ jobs:
             target: x86_64-pc-windows-msvc
             variant: release # Note: we do not support windows debug builds.
 
-          - os: ubuntu-latest-xl
+          - os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             variant: debug
 
-          - os: ubuntu-latest-xl
+          - os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             variant: release
 
@@ -54,6 +54,7 @@ jobs:
       CARGO_VARIANT_FLAG: ${{ matrix.config.variant == 'release' && '--release' || '' }}
       LIB_NAME: ${{ contains(matrix.config.target, 'windows') && 'rusty_v8' || 'librusty_v8' }}
       LIB_EXT: ${{ contains(matrix.config.target, 'windows') && 'lib' || 'a' }}
+      GN_ARGS: use_custom_libcxx=false is_clang=true
 
     steps:
       - name: Configure git
@@ -179,7 +180,7 @@ jobs:
       - name: Binary publish
         uses: softprops/action-gh-release@v1
         if: >-
-          github.repository == 'denoland/rusty_v8' &&
+          github.repository == 'FredrikNoren/rusty_v8' &&
           startsWith(github.ref, 'refs/tags/')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
